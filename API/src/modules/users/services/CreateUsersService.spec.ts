@@ -3,15 +3,20 @@ import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakesH
 import AppError from '@shared/errors/AppError';
 import CreateUsersServices from './CreateUsersServices';
 
+let fakeUsersRepository: FakeUsersRepository;
+let fakeHashProvider: FakeHashProvider;
+let createUsersServices: CreateUsersServices;
+
 describe('Create new User', () => {
-	it('Should be able to create a new user', async () => {
-		const fakeUsersRepository = new FakeUsersRepository();
-		const fakeHashProvider = new FakeHashProvider();
-		const createUsersServices = new CreateUsersServices(
+	beforeEach(() => {
+		fakeUsersRepository = new FakeUsersRepository();
+		fakeHashProvider = new FakeHashProvider();
+		createUsersServices = new CreateUsersServices(
 			fakeUsersRepository,
 			fakeHashProvider,
 		);
-
+	});
+	it('Should be able to create a new user', async () => {
 		const createUser = await createUsersServices.execute({
 			email: 'test@test.com.br',
 			name: 'Jw quest',
@@ -20,13 +25,6 @@ describe('Create new User', () => {
 		expect(createUser).toHaveProperty('id');
 	});
 	it('should not be able to create a user with an email already registered.', async () => {
-		const fakeUsersRepository = new FakeUsersRepository();
-		const fakeHashProvider = new FakeHashProvider();
-		const createUsersServices = new CreateUsersServices(
-			fakeUsersRepository,
-			fakeHashProvider,
-		);
-
 		await createUsersServices.execute({
 			email: 'test@test.com.br',
 			name: 'Jw quest',
