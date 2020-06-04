@@ -1,5 +1,3 @@
-import { createConnection } from 'typeorm';
+import { createConnections } from 'typeorm';
 
-const connection = createConnection();
-
-export default connection;
+createConnections();

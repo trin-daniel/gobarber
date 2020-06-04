@@ -5,12 +5,11 @@ import AppointmentsRepository from '@modules/appointments/infra/typeorm/reposito
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import IUserTokensRepository from '@modules/users/repositories/IUserTokensRepository';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
 import UserTokensRepository from '@modules/users/infra/typeorm/repositories/UserTokensRepository';
-import IMailProvier from './providers/MailProvider/models/IMailProvider';
-import EtherealMailProvider from './providers/MailProvider/implementations/EtherealMailProvider';
-import '@modules/users/providers';
-import IMailTemplateProvider from './providers/MailTemplateProvider/models/IMailTemplateProvider';
-import HandlebarsMailTemplateProvider from './providers/MailTemplateProvider/implementations/HandlebarsMailTemplateProvider';
+import NotificationsRepository from '@modules/notifications/infra/typeorm/repositories/NotificationsRepository';
+
+import './providers';
 
 container.registerSingleton<IApponitmentsRepository>(
 	'AppointmentsRepository',
@@ -24,11 +23,8 @@ container.registerSingleton<IUserTokensRepository>(
 	'UserTokensRepository',
 	UserTokensRepository,
 );
-container.registerSingleton<IMailTemplateProvider>(
-	'MailTemplateProvider',
-	HandlebarsMailTemplateProvider,
-);
-container.registerInstance<IMailProvier>(
-	'MailProvider',
-	container.resolve(EtherealMailProvider),
+
+container.registerSingleton<INotificationsRepository>(
+	'NotificationsRepository',
+	NotificationsRepository,
 );

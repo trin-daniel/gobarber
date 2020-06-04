@@ -1,20 +1,24 @@
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakesHashProvider';
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/fakeCacheProvider';
 import CreateUsersServices from '@modules/users/services/CreateUsersServices';
 import AuthenticateUsersService from '@modules/users/services/AuthenticateUserService';
 import AppError from '@shared/errors/AppError';
 
 let fakeUsersRespository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
+let fakeCacheProvider: FakeCacheProvider;
 let createUser: CreateUsersServices;
 let authenticateUser: AuthenticateUsersService;
 describe('Authenticate', () => {
 	beforeEach(() => {
 		fakeUsersRespository = new FakeUsersRepository();
+		fakeCacheProvider = new FakeCacheProvider();
 		fakeHashProvider = new FakeHashProvider();
 		createUser = new CreateUsersServices(
 			fakeUsersRespository,
 			fakeHashProvider,
+			fakeCacheProvider,
 		);
 		authenticateUser = new AuthenticateUsersService(
 			fakeUsersRespository,
@@ -23,7 +27,7 @@ describe('Authenticate', () => {
 	});
 
 	it('Should be able to authenticate', async () => {
-		const user = await createUser.execute({
+		const user = await fakeUsersRespository.create({
 			name: 'Jhon bobs',
 			email: 'jhonbobs@gmail.com',
 			password: '123456',
