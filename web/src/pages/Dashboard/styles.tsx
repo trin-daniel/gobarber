@@ -50,6 +50,13 @@ export const Profile = styled.div`
     strong {
       color: #ff9000;
     }
+    a {
+      text-decoration: none;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
   }
 `;
 

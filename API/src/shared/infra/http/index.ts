@@ -8,13 +8,12 @@ import '@shared/infra/typeorm';
 import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 import routes from './routes';
-import rateLimiter from './middlewares/rateLimiter';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/files', express.static(uploadConfig.uploadsFolder));
-app.use(rateLimiter);
+
 app.use(routes);
 app.use(errors());
 app.use(
@@ -26,7 +25,7 @@ app.use(
 			});
 		}
 		return response.status(500).json({
-			satus: 'error',
+			status: 'error',
 			message: err.message,
 		});
 	},
